@@ -1,4 +1,4 @@
-# Session control in JavaScript (ECMAScript 6) - Alpha EdTech
+# Session management in JavaScript (ECMAScript 6) - Alpha EdTech
 
 ***WORK IN PROGRESS...***
 

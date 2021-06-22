@@ -2,7 +2,7 @@
 
 This tag is used to add a hidden field, that *can't be seen or modified by the user*, to a form. For more details, check out the [MDN documentation.](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/hidden)
 
-In this activity, we used the hidden input to send a token, that will be used for session control in
+In this activity, we used the hidden input to send a token, that will be used for session management in
 the next activities. The token was generated with the current time (in miliseconds since 01/01/1970)
 and the username, to be unique for any user accessing the page.
 

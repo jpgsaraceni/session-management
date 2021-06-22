@@ -1,0 +1,97 @@
+Aula 1 - 21/06/2021 - Introdução a controle de sessão (campo hidden)
+  Controle por meio de campos ocultos em formulários HTML era feito quando não existiam cookies.
+  Campo hidden é recebido na resposta da requisição (fazer via formulário, não parâmetro)
+
+  terminal (com npm e node.js instalados):
+      npm init
+      npm install express --save
+      npm install body-parser --save
+
+  no index.js:
+      const express = require('express');
+      const bodyParser = require('body-parser');
+
+      const app = express(); // receber requisições http
+
+      app.use(bodyParser.urlencoded({extended: false})); // passa parâmetro para o body parser chamando o tipo de codificação extended: false. app.use é um middleware para passar a requisição parseada.
+      app.use(bodyParser.json());
+
+      let data = {};
+      data.kenji = "senhadokenji";
+
+      app.get("/", (req, res) => {
+          const ret = (
+          <html>
+              <form action="/" method="POST">
+                  <label>Username: </label>
+                  <input type="text" name="username" />
+                  <label>Password: </label>
+                  <input type="password" name="password" />
+                  <input type="hidden" name="id" value="1234" />
+                  <input type="submit" value="Entrar" />
+              </form>
+          </html>
+          `)
+          res.send(ret);
+      });
+
+      app.post("/", (req, res) => {
+          const username = req.body.username;
+          const password = req.body.password;
+          let ret = {};
+
+          ret.token = (new Date()).getTime()+username; 
+
+          res.setHeader("Content-Type", "application/json");
+
+          const result = `
+              <html>
+                  <label>Seja bem-vindo ${username}</label>
+                  <form action="/" method="POST">
+                      <input type="text" name="action" />
+                      <input type="hidden" name="session-id" value="${ret.token}" />
+                      <input type="submit" value="Agir" />
+                  </form>    
+              </html>
+          `;
+
+          if (password === data[username]) { // compara a senha recebida com a armazenada no objeto data.
+              res.send(result);
+              return false;
+          };
+          // res.send('{"error", "Invalid login" }');
+          res.redirect('/');
+          return false;
+      });
+
+      app.listen(8080);
+
+  No navegador localhost:8080.
+
+  Resumo: na primeira página o form vai enviar uma requisição ao servidor.
+  O servidor deverá retornar um token, que será utilizado para o controle de sessão.
+
+Aula 2 - 22/06/2021 - Cookies
+  Vantagem do token em campo oculto de formulário: não depende de cookie.
+
+  ---Cookies---
+
+  Hoje em dia são usados basicamente apenas para controle de sessão, já que
+  gera automaticamente um token. Como é enviado em todas as requisições,
+  é menos performático do que armazenar em local storage ou session storage, por exemplo.
+  O cookie é setado no cabeçalho HTTP de resposta.
+
+  Set-Cookie: <cookie-name>=<cookie-value>
+
+  Nas próximas requisições, o navegador envia todos os cookies armazenados para o servidor.
+
+  Cookie: <cookie-name>=<cookie-value>; <cookie-name>=<cookie-value>
+
+  O cookie-parser é um middleware que traduz o cookie do cabeçalho para um objeto.
+  Joga o cookie para req.cookies.
+
+  A atividade seguinte é para utilizar cookie para controle de sessão, com ajax sem recarregamento.
+  clicou em entrar, dispara ajax, retorna json. juntamente tem que setar o cookie de sessão (se o usuário for válido)
+  se o cookie expirar (ou alterar) apaga e manda para tela de login. na próxima requisição /get verifica o cookie
+  todas as ações verificam o cookie.
+  Recebe formulário via body-parser.

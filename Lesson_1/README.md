@@ -8,9 +8,9 @@ and the username, to be unique for any user accessing the page.
 
 ## Requirements
 
-*[Node.js](https://nodejs.org/en/)
-*[npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
-*[Express](https://expressjs.com/)
+* [Node.js](https://nodejs.org/en/)
+* [npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
+* [Express](https://expressjs.com/)
 
 ### Notes
 
@@ -20,7 +20,7 @@ a request to a server and receiving a unique token to be used for the rest of th
 There are swifter ways to do this, however the idea is the same. Some of the simplifications
 used on this webpage are:
 
-*The passwords were not encrypted;
-*Page full HTML being generated in POST method response and reusing stylesheet from other pages;
-*Not a Single Page Application;
-*HTML with minimum elements (no meta tags).
+* The passwords were not encrypted;
+* Page full HTML being generated in POST method response and reusing stylesheet from other pages;
+* Not a Single Page Application;
+* HTML with minimum elements (no meta tags).

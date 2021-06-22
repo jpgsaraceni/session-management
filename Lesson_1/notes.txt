@@ -1,0 +1,72 @@
+Aula de 21/06/2021 - Introdução a controle de sessão
+Controle por meio de campos ocultos em formulários HTML era feito quando não existiam cookies.
+Campo hidden é recebido na resposta da requisição (fazer via formulário, não parâmetro)
+
+terminal (com npm e node.js instalados):
+    npm init
+    npm install express --save
+    npm install body-parser --save
+
+no index.js:
+    const express = require('express');
+    const bodyParser = require('body-parser');
+
+    const app = express(); // receber requisições http
+
+    app.use(bodyParser.urlencoded({extended: false})); // passa parâmetro para o body parser chamando o tipo de codificação extended: false. app.use é um middleware para passar a requisição parseada.
+    app.use(bodyParser.json());
+
+    let data = {};
+    data.kenji = "senhadokenji";
+
+    app.get("/", (req, res) => {
+        const ret = (
+        <html>
+            <form action="/" method="POST">
+                <label>Username: </label>
+                <input type="text" name="username" />
+                <label>Password: </label>
+                <input type="password" name="password" />
+                <input type="hidden" name="id" value="1234" />
+                <input type="submit" value="Entrar" />
+            </form>
+        </html>
+        `)
+        res.send(ret);
+    });
+
+    app.post("/", (req, res) => {
+        const username = req.body.username;
+        const password = req.body.password;
+        let ret = {};
+
+        ret.token = (new Date()).getTime()+username; 
+
+        res.setHeader("Content-Type", "application/json");
+
+        const result = `
+            <html>
+                <label>Seja bem-vindo ${username}</label>
+                <form action="/" method="POST">
+                    <input type="text" name="action" />
+                    <input type="hidden" name="session-id" value="${ret.token}" />
+                    <input type="submit" value="Agir" />
+                </form>    
+            </html>
+        `;
+
+        if (password === data[username]) { // compara a senha recebida com a armazenada no objeto data.
+            res.send(result);
+            return false;
+        };
+        // res.send('{"error", "Invalid login" }');
+        res.redirect('/');
+        return false;
+    });
+
+    app.listen(8080);
+
+No navegador localhost:8080.
+
+Resumo: na primeira página o form vai enviar uma requisição ao servidor.
+O servidor deverá retornar um token, que será utilizado para o controle de sessão.

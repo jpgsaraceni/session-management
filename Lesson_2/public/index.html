@@ -1,0 +1,65 @@
+<html>
+
+    <head>
+      <link rel="preconnect" href="https://fonts.gstatic.com">
+      <meta charset="utf-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <link href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap" rel="stylesheet">
+      <link rel="stylesheet" href="style.css">
+    </head>
+
+    <body>
+
+      <div class="container" id="login-container">
+        <h1 id="login-welcome">Bem-vindo(a)!</h1>
+        <label for="username">Usuário: </label>
+        <input type="text" name="username" id="username" />
+        <label for="password">Senha: </label>
+        <input type="password" name="password" id="password" />
+        <span id="register-complete"></span>
+        <button class="btn-primary" onClick="login()">Entrar</button>
+        <div class="register">
+          <span>Novo aqui?</span>
+          <button class="btn-secondary" onClick="changeToPage('signup')">Cadastre-se</button>
+        </div>
+      </div>
+
+      <div class="container" id="signup-container">
+        <h1>Cadastre seu usuário e senha</h1>
+        <label for="username">Usuário: </label>
+        <input type="text" name="username" id="username-new" />
+        <label for="password">Senha: </label>
+        <input type="password" name="password" id="password-new" />
+        <label for="confirm-password">Confirme sua senha: </label>
+        <input type="password" name="confirm-password" id="confirm-password-new" />
+        <button class="btn-primary" onClick="register()">Cadastrar</button>
+      </div>
+
+      <div class="container" id="signup-complete-container">
+        <h1>Cadastro efetuado com sucesso!</h1>
+        <button class="btn-primary">Entrar</button>
+      </div>
+
+      <div class="container" id="home-container">
+        <h1>Olá, <span id="logged-username"></span>!</h1>
+          <button class="btn-primary" onClick="openSchedule()">Agendar Aula</button>
+      </div>
+
+      <div class="container" id="schedule-class-container">
+        <h1>Seus agendamentos</h1>
+        <div id="agendamentos"></div>
+        <h2>Aulas disponíveis:</h2>
+        <div class="class-card">
+          <h3>Segunda 18h</h3>
+          <button class="btn-secondary">Agendar</button>
+        </div>
+        <div class="class-card">
+          <h3>Terça 17h</h3>
+          <button class="btn-secondary">Agendar</button>
+        </div>
+      </div>
+
+      <script src="script.js"></script>
+
+    </body>
+</html>

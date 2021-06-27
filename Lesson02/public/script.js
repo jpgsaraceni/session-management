@@ -17,6 +17,7 @@ function login () {
   fetch(baseUrl + '/login', { method: 'POST', body: JSON.stringify(reqObj), headers: { 'Content-Type': 'application/json' } })
     .then(response => response.json())
     .then(data => {
+      console.log(data)
       if (data === true) {
         changeToPage('home')
         user = username

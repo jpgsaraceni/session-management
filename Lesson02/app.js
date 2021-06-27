@@ -10,7 +10,7 @@ app.use(express.json())
 app.use(cookieParser())
 
 const fakeDb = 'fakedb/users.json'
-let sessionToken
+let sessionToken // change to object
 
 function registerUser (newUser) {
   return new Promise((resolve, reject) => {
@@ -52,7 +52,7 @@ app.post('/login', async (req, res) => {
 
   await userList.then(data => {
     data.forEach(user => {
-      if (user.name === username & user.password === password) {
+      if (user.username === username & user.password === password) {
         const token = `${new Date().getTime()}:${username}`
         res.cookie('token', token)
         sessionToken = token
@@ -69,7 +69,7 @@ app.get('/schedule', (req, res) => {
   if (req.cookies.token === sessionToken) {
     res.send('true')
   } else {
-    res.send('false')
+    res.send('false') // change to res.status(403).send('Não autorizado')
   }
 })
 
@@ -81,6 +81,12 @@ app.post('/register', async (req, res) => {
   await registerUser(userObj).then(data => {
     res.send('true')
   }).catch(() => res.send('false'))
+})
+
+app.post('/schedule', (req, res) => { // in progress
+  if (req.cookies.token === sessionToken) {
+    res.send('true')
+  }
 })
 
 app.listen(80)
